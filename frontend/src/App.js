@@ -13,13 +13,13 @@ function App() {
 
   return (
     <div className="App">
-      <h1>📝 My Notes</h1>
+      <h1>My Notes</h1>
       {notes.length === 0 ? (
         <p>Loading notes...</p>
       ) : (
         <ul>
           {notes.map((note, index) => (
-            <li key={index} style={{ marginBottom: '20px', textAlign: 'left' }}>
+            <li key={index}>
               <h3>{note.title}</h3>
               <p>{note.content}</p>
             </li>
