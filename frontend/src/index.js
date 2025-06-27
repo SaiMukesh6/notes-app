@@ -1,17 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+app.use(cors());
+app.use(express.json());
 
-reportWebVitals();
+// Dummy notes data
+const notes = [
+  { title: "Note 1", content: "This is the first note." },
+  { title: "Note 2", content: "Another note content here." }
+];
+
+// GET /notes
+app.get('/notes', (req, res) => {
+  res.json(notes);
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

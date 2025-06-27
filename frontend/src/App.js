@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://notes-app-yuv8.onrender.com/notes')
+      .then((res) => res.json())
+      .then((data) => {
+        setNotes(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch notes:", err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>My Notes</h1>
+      {loading ? (
+        <p>Loading notes...</p>
+      ) : notes.length === 0 ? (
+        <p>No notes found.</p>
+      ) : (
+        <ul>
+          {notes.map((note, index) => (
+            <li key={index}>
+              <h3>{note.title}</h3>
+              <p>{note.content}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
